@@ -15,38 +15,10 @@ from selenium import webdriver
 import time
 import os
 
-dir=os.path.dirname(__file__)
-print(dir)
-chrome_driver_path=dir+"\chromedriver.exe"
-browser=webdriver.Chrome(chrome_driver_path)
-
-browser.get("https://www.whatismyip.com/ip-address-lookup/")
-time.sleep(4)
-
-MyIP=browser.find_element_by_name("ip").get_attribute("value")
-print(MyIP)
-
-#write my IP to the file
-file_object = open('C:/workspace/selenium/src/pi/IP.txt', 'r')
-old_IP = file_object.read()
-if MyIP==old_IP:
-    print('The IP does NOT change')
-    file_object.close()
-    
-else:#if the IP address changed to write the file 
-    file_object = open('C:/workspace/selenium/src/pi/IP.txt', 'w')
-    file_object.write(MyIP)
-    file_object.close()
-
-browser.close()
-
 username = 'rpi_report_ip@outlook.com'  # Email Address from the email you want to send an email
 password = 'ThisIsRobot'  # Password
-server = smtplib.SMTP('smtp-mail.outlook.com:587')
+server = smtplib.SMTP('')
 from_addr='rpi_report_ip@outlook.com'
-
-
-
 
 """
 SMTP Server Information
@@ -67,44 +39,72 @@ def send_mail(username, password, from_addr, to_addrs, msg):
     server.ehlo()
     server.starttls()
     server.ehlo()
-
-
     server.login(username, password)
-
     server.sendmail(from_addr, to_addrs, msg.as_string())
     server.quit()
 
-# Read to_addrs email list txt
 
-#email_list = [line.strip() for line in open('/home/pi/python_code/email.txt')] #for linux
-email_list = [line.strip() for line in open('C:/workspace/selenium/src/pi/email.txt')] #for windows
+dir=os.path.dirname(__file__)
+print(dir)
+chrome_driver_path=dir+"\chromedriver.exe"
+browser=webdriver.Chrome(chrome_driver_path)
 
-for to_addrs in email_list:
-    msg = MIMEMultipart()
+browser.get("https://www.whatismyip.com/ip-address-lookup/")
+time.sleep(4)
 
-    msg['Subject'] = "You IP address has changed"
-    msg['From'] = from_addr
-    msg['To'] = to_addrs
+MyIP=browser.find_element_by_name("ip").get_attribute("value")
+print(MyIP)
+browser.close()
 
-    # Attach HTML to the email
-    #body = MIMEText(html, 'html')
-    #msg.attach(body)
+#write my IP to the file
+file_object = open('C:/workspace/selenium/src/pi/IP.txt', 'r')
+old_IP = file_object.read()
+if MyIP==old_IP:
+    print('The IP does NOT change')
+    file_object.close()
+    
+else:#if the IP address changed to write it down and send email 
+    print('The IP DO change')
+    file_object = open('C:/workspace/selenium/src/pi/IP.txt', 'w')
+    file_object.write(MyIP)
+    file_object.close()
+    # Read to_addrs email list txt
+    #email_list = [line.strip() for line in open('/home/pi/python_code/email.txt')] #for linux
+    email_list = [line.strip() for line in open('C:/workspace/selenium/src/pi/email.txt')] #for windows
 
-    # Attach Cover Letter to the email
-    #cover_letter = MIMEApplication(open("file1.pdf", "rb").read())
-    #cover_letter.add_header('Content-Disposition', 'attachment', filename="file1.pdf")
-    #msg.attach(cover_letter)
+    for to_addrs in email_list:
+        msg = MIMEMultipart()
+        msg['Subject'] = "You IP address has changed" + MyIP
+        msg['From'] = from_addr
+        msg['To'] = to_addrs
 
-    # Attach Resume to the email
-    #cover_letter = MIMEApplication(open("file2.pdf", "rb").read())
-    #cover_letter.add_header('Content-Disposition', 'attachment', filename="file2.pdf")
-    #msg.attach(cover_letter)
+        # Attach HTML to the email
+        #body = MIMEText(html, 'html')
+        #msg.attach(body)
 
-    try:
-        #send_mail(username, password, from_addr, to_addrs, msg)
-        print "Email successfully sent to", to_addrs
-    #The sever doesn't accept username and password
-    except SMTPAuthenticationError:
-        print 'SMTPAuthenticationError'
-        print "Email not sent to", to_addrs
+        # Attach Cover Letter to the email
+        #cover_letter = MIMEApplication(open("file1.pdf", "rb").read())
+        #cover_letter.add_header('Content-Disposition', 'attachment', filename="file1.pdf")
+        #msg.attach(cover_letter)
+
+        # Attach Resume to the email
+        #cover_letter = MIMEApplication(open("file2.pdf", "rb").read())
+        #cover_letter.add_header('Content-Disposition', 'attachment', filename="file2.pdf")
+        #msg.attach(cover_letter)
+
+        try:
+            send_mail(username, password, from_addr, to_addrs, msg)
+            print "Email successfully sent to", to_addrs
+        #The sever doesn't accept username and password
+        except SMTPAuthenticationError:
+            print 'SMTPAuthenticationError'
+            print "Email not sent to", to_addrs
+
+
+
+
+
+
+
+
 
