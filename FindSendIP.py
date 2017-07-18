@@ -26,7 +26,19 @@ time.sleep(4)
 MyIP=browser.find_element_by_name("ip").get_attribute("value")
 print(MyIP)
 
-browser.get("https://www.outlook.com/")
+#write my IP to the file
+file_object = open('C:/workspace/selenium/src/pi/IP.txt', 'r')
+old_IP = file_object.read()
+if MyIP==old_IP:
+    print('The IP does NOT change')
+    file_object.close()
+    
+else:#if the IP address changed to write the file 
+    file_object = open('C:/workspace/selenium/src/pi/IP.txt', 'w')
+    file_object.write(MyIP)
+    file_object.close()
+
+browser.close()
 
 username = 'rpi_report_ip@outlook.com'  # Email Address from the email you want to send an email
 password = 'ThisIsRobot'  # Password
@@ -65,12 +77,12 @@ def send_mail(username, password, from_addr, to_addrs, msg):
 # Read to_addrs email list txt
 
 #email_list = [line.strip() for line in open('/home/pi/python_code/email.txt')] #for linux
-email_list = [line.strip() for line in open('C:/workspace/selenium/src/email.txt')] #for windows
+email_list = [line.strip() for line in open('C:/workspace/selenium/src/pi/email.txt')] #for windows
 
 for to_addrs in email_list:
     msg = MIMEMultipart()
 
-    msg['Subject'] = "Hello How are you ?" + MyIP
+    msg['Subject'] = "You IP address has changed"
     msg['From'] = from_addr
     msg['To'] = to_addrs
 
@@ -89,7 +101,7 @@ for to_addrs in email_list:
     #msg.attach(cover_letter)
 
     try:
-        send_mail(username, password, from_addr, to_addrs, msg)
+        #send_mail(username, password, from_addr, to_addrs, msg)
         print "Email successfully sent to", to_addrs
     #The sever doesn't accept username and password
     except SMTPAuthenticationError:
