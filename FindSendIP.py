@@ -7,10 +7,7 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from email.mime.application import MIMEApplication
 from smtplib import SMTPAuthenticationError
-from smtplib import SMTPHeloError
-from smtplib import SMTPRecipientsRefused
-from smtplib import SMTPSenderRefused
-from smtplib import SMTPDataError
+
 from selenium import webdriver
 import time
 import os
@@ -45,13 +42,9 @@ def send_mail(username, password, from_addr, to_addrs, msg):
 
 
 dir=os.path.dirname(__file__)
-print(dir)
 chrome_driver_path=dir+"\chromedriver.exe"
 browser=webdriver.Chrome(chrome_driver_path)
-
 browser.get("https://www.whatismyip.com/ip-address-lookup/")
-time.sleep(4)
-
 MyIP=browser.find_element_by_name("ip").get_attribute("value")
 print(MyIP)
 browser.close()
