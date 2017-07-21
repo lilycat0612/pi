@@ -12,6 +12,7 @@ from selenium import webdriver
 import time
 import os
 
+#hard code need to changed
 username = 'rpi_report_ip@outlook.com'  # Email Address from the email you want to send an email
 password = 'ThisIsRobot'  # Password
 server = smtplib.SMTP('')
@@ -32,7 +33,7 @@ html = """Add you email body here"""
 # Function that send email.
 def send_mail(username, password, from_addr, to_addrs, msg):
     #server = smtplib.SMTP('smtp-mail.outlook.com', '587')
-    server = smtplib.SMTP('Smtp.live.com', '25')
+    server = smtplib.SMTP('Smtp.live.com', '25')#hard code need to changed
     server.ehlo()
     server.starttls()
     server.ehlo()
@@ -50,7 +51,7 @@ print(MyIP)
 browser.close()
 
 #write my IP to the file
-file_object = open('C:/workspace/selenium/src/pi/IP.txt', 'r')
+file_object = open('C:/workspace/selenium/src/pi/IP.txt', 'r')#hard code need to changed
 old_IP = file_object.read()
 if MyIP==old_IP:
     print('The IP does NOT change')
@@ -58,12 +59,12 @@ if MyIP==old_IP:
     
 else:#if the IP address changed to write it down and send email 
     print('The IP DO change')
-    file_object = open('C:/workspace/selenium/src/pi/IP.txt', 'w')
+    file_object = open('C:/workspace/selenium/src/pi/IP.txt', 'w')#hard code need to changed
     file_object.write(MyIP)
     file_object.close()
     # Read to_addrs email list txt
     #email_list = [line.strip() for line in open('/home/pi/python_code/email.txt')] #for linux
-    email_list = [line.strip() for line in open('C:/workspace/selenium/src/pi/email.txt')] #for windows
+    email_list = [line.strip() for line in open('C:/workspace/selenium/src/pi/email.txt')] #for windows #hard code need to changed
 
     for to_addrs in email_list:
         msg = MIMEMultipart()
