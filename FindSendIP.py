@@ -12,6 +12,10 @@ from selenium import webdriver
 import time
 import os
 
+from pyquery import PyQuery
+
+url='http://ipaddress.com/'
+
 #hard code need to changed
 username = 'rpi_report_ip@outlook.com'  # Email Address from the email you want to send an email
 password = 'ThisIsRobot'  # Password
@@ -41,14 +45,19 @@ def send_mail(username, password, from_addr, to_addrs, msg):
     server.sendmail(from_addr, to_addrs, msg.as_string())
     server.quit()
 
+# find by selenium
+# dir=os.path.dirname(__file__)
+# chrome_driver_path=dir+"\chromedriver.exe"
+# browser=webdriver.Chrome(chrome_driver_path)
+# browser.get("https://www.whatismyip.com/ip-address-lookup/")
 
-dir=os.path.dirname(__file__)
-chrome_driver_path=dir+"\chromedriver.exe"
-browser=webdriver.Chrome(chrome_driver_path)
-browser.get("https://www.whatismyip.com/ip-address-lookup/")
-MyIP=browser.find_element_by_name("ip").get_attribute("value")
-print(MyIP)
-browser.close()
+# MyIP=browser.find_element_by_name("ip").get_attribute("value")
+# print(MyIP)
+# browser.close()
+
+#find by PyQuery
+page_date=PyQuery(url)
+MyIP=page_date('.navbar-text.navbar-right').text()
 
 #write my IP to the file
 file_object = open('C:/workspace/selenium/src/pi/IP.txt', 'r')#hard code need to changed
@@ -88,11 +97,11 @@ else:#if the IP address changed to write it down and send email
 
         try:
             send_mail(username, password, from_addr, to_addrs, msg)
-            print "Email successfully sent to", to_addrs
+            print ("Email successfully sent to")+to_addrs
         #The sever doesn't accept username and password
         except SMTPAuthenticationError:
-            print 'SMTPAuthenticationError'
-            print "Email not sent to", to_addrs
+            print ('SMTPAuthenticationError')
+            print ("Email not sent to")+to_addrs
 
 
 
