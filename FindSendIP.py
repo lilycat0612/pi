@@ -57,7 +57,7 @@ def send_mail(username, password, from_addr, to_addrs, msg):
 
 #find by PyQuery
 page_date=PyQuery(url)
-MyIP=page_date('.navbar-text.navbar-right').text()
+MyIP=page_date('.navbar-text').text() # for class = .navbar-text navbar-right
 
 #write my IP to the file
 file_object = open('C:/workspace/selenium/src/pi/IP.txt', 'r')#hard code need to changed
@@ -97,11 +97,11 @@ else:#if the IP address changed to write it down and send email
 
         try:
             send_mail(username, password, from_addr, to_addrs, msg)
-            print ("Email successfully sent to")+to_addrs
+            print ("Email successfully sent")
         #The sever doesn't accept username and password
         except SMTPAuthenticationError:
             print ('SMTPAuthenticationError')
-            print ("Email not sent to")+to_addrs
+            print ("Email NOT sent")
 
 
 
