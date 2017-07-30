@@ -8,8 +8,8 @@ from email.mime.text import MIMEText
 from email.mime.application import MIMEApplication
 from smtplib import SMTPAuthenticationError
 
-from selenium import webdriver
-import time
+#from selenium import webdriver
+#import time
 import os
 
 from pyquery import PyQuery
@@ -60,7 +60,7 @@ page_date=PyQuery(url)
 MyIP=page_date('.navbar-text').text() # for class = .navbar-text navbar-right
 
 #write my IP to the file
-file_object = open('C:/workspace/selenium/src/pi/IP.txt', 'r')#hard code need to changed
+file_object = open('./IP.txt', 'r')#hard code need to changed
 old_IP = file_object.read()
 if MyIP==old_IP:
     print('The IP does NOT change')
@@ -68,12 +68,12 @@ if MyIP==old_IP:
     
 else:#if the IP address changed to write it down and send email 
     print('The IP DO change')
-    file_object = open('C:/workspace/selenium/src/pi/IP.txt', 'w')#hard code need to changed
+    file_object = open('./IP.txt', 'w')#hard code need to changed
     file_object.write(MyIP)
     file_object.close()
     # Read to_addrs email list txt
     #email_list = [line.strip() for line in open('/home/pi/python_code/email.txt')] #for linux
-    email_list = [line.strip() for line in open('C:/workspace/selenium/src/pi/email.txt')] #for windows #hard code need to changed
+    email_list = [line.strip() for line in open('./email.txt')] #for windows #hard code need to changed
 
     for to_addrs in email_list:
         msg = MIMEMultipart()
