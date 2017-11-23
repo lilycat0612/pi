@@ -56,7 +56,7 @@ def send_mail(username, password, from_addr, to_addrs, msg):
 # browser.close()
 
 #find by PyQuery
-page_date=PyQuery(url)
+page_data=PyQuery(url)
 MyIP=page_data('body > div.container > div > main > h1').text()#selector
 #MyIP=page_date('.navbar-text').text() # for class = .navbar-text navbar-right
 
