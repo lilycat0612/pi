@@ -57,7 +57,8 @@ def send_mail(username, password, from_addr, to_addrs, msg):
 
 #find by PyQuery
 page_date=PyQuery(url)
-MyIP=page_date('.navbar-text').text() # for class = .navbar-text navbar-right
+MyIP=page_data('body > div.container > div > main > h1').text()#selector
+#MyIP=page_date('.navbar-text').text() # for class = .navbar-text navbar-right
 
 #write my IP to the file
 file_object = open('./IP.txt', 'r')#hard code need to changed
