@@ -18,7 +18,7 @@ url='http://ipaddress.com/'
 
 #hard code need to changed
 username = 'rpi_report_ip@outlook.com'  # Email Address from the email you want to send an email
-password = 'ThisIsRobot'  # Password
+password = 'Thisistest0'  # Password
 server = smtplib.SMTP('')
 from_addr='rpi_report_ip@outlook.com'
 
@@ -73,8 +73,8 @@ else:#if the IP address changed to write it down and send email
     file_object.write(MyIP)
     file_object.close()
     # Read to_addrs email list txt
-    #email_list = [line.strip() for line in open('/home/pi/python_code/email.txt')] #for linux
-    email_list = [line.strip() for line in open('./email.txt')] #for windows #hard code need to changed
+    email_list = [line.strip() for line in open('/home/pi/python_code/email.txt')] #for linux
+    #email_list = [line.strip() for line in open('./email.txt')] #for windows #hard code need to changed
 
     for to_addrs in email_list:
         msg = MIMEMultipart()
